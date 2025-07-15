@@ -570,7 +570,7 @@ def load_timeseries(sql: str, params: list):
 
 def forecast_next_3_months(df: pd.DataFrame):
     model = AutoTS(
-        forecast_length=3,
+        forecast_length=4,
         frequency="MS",
         prediction_interval=0.9,
         ensemble="horizontal",
@@ -592,11 +592,11 @@ def load_existing_forecast(field: str, company: str, site: str, year: int, perio
         "WHERE Field=? AND CompanyCode=? AND SiteCode=? "
         "AND Forecasted_On_Year=? AND Forecasted_On_Period=?"
     )
-    df = pd.read_sql(sql, conn, params=[field, company, site, year, f"P{period}"])
+    df = pd.read_sql(sql, conn, params=[field, company, site, year, f"{period}"])
     conn.close()
     if df.empty:
         return None
-    df["PeriodInt"] = df["Forecasted_For_Period"].str.extract(r"P(\d+)").astype(int)
+    df["PeriodInt"] = df["Forecasted_For_Period"].astype(int)
     df["date"] = pd.to_datetime(
         df["Forecasted_For_Year"].astype(int).astype(str)
         + "-"
@@ -621,9 +621,9 @@ def save_forecast(field: str, fc: list[dict], company: str, site: str, year: int
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             field,
             row["forecast"],
-            f"P{period}",
+            f"{period}",
             year,
-            f"P{dt.month}",
+            f"{dt.month}",
             dt.year,
             company,
             site,
@@ -753,9 +753,9 @@ def approve_forecast():
                     site_code,
                     field,
                     int(year),
-                    f'P{int(period_int)}',
+                    f'{int(period_int)}',
                     dt.year,
-                    f'P{dt.month}',
+                    f'{dt.month}',
                 ),
             )
     conn.commit()
@@ -863,8 +863,8 @@ def generate_account_json_structured_percentage(account_number: str, df: pd.Data
         if not period_data.empty:
             amount = period_data.iloc[0]["TotalAmount"]
             pct = period_data.iloc[0]["PercentageValue"]
-            result[f"P{period}-{acc_row['Year']}"] = amount
-            result[f"P{period}-{acc_row['Year']} %"] = pct
+            result[f"{period}-{acc_row['Year']}"] = amount
+            result[f"{period}-{acc_row['Year']} %"] = pct
 
     if is_aggregated:
         formula = acc_row.get("AggregatedFormula", "")
@@ -907,8 +907,8 @@ def generate_account_json_structured_percentage(account_number: str, df: pd.Data
             for period in df["Period"].unique():
                 period_row = acc_rows[acc_rows["Period"] == period]
                 if not period_row.empty:
-                    entry[f"P{period}-{row['Year']}"] = period_row.iloc[0]["TotalAmount"]
-                    entry[f"P{period}-{row['Year']} %"] = period_row.iloc[0]["PercentageValue"]
+                    entry[f"{period}-{row['Year']}"] = period_row.iloc[0]["TotalAmount"]
+                    entry[f"{period}-{row['Year']} %"] = period_row.iloc[0]["PercentageValue"]
             agg_fields.append(entry)
 
         result["Aggregated Fields"] = agg_fields
