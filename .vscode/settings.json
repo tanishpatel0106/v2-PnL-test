@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/40247627-f6e8-42f2-8429-3911ace01e9e/resourceGroups/pnl-paperchase_group/providers/Microsoft.Web/sites/pnl-paperchase",
+    "appService.deploySubpath": "."
+}

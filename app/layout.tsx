@@ -4,9 +4,9 @@ import { AuthProvider } from '../components/auth-provider'
 import { MainNavbar } from '../components/ui/MainNavbar'
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.dev',
+  title: 'PnL Management Accounts',
+  description: 'Created by AI Division',
+  generator: 'next.js',
 }
 
 export default function RootLayout({

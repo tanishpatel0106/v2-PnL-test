@@ -1,7 +1,0 @@
-flask
-flask_cors
-pyodbc
-openai
-pandas
-numpy
-autots
