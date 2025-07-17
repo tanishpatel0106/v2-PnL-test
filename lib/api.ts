@@ -1,4 +1,4 @@
-export const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000';
+export const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://10.200.7.77:8501';
 
 export async function fetchCompanyCodes(): Promise<string[]> {
   const res = await fetch(`${API_BASE_URL}/company_codes`);
